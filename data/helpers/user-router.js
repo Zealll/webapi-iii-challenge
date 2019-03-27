@@ -81,14 +81,14 @@ router.put('/:id', capitalLetters, (req, res) => {
     users
     .update(id, update)
     .then(updated => {
-        if(updated.length < 0){
+        if(!updated){
             res
             .status(404)
             .json({message: `The User with the specified ID of ${id} does not exist.`})
         } else {
             res
             .status(200)
-            .json(updated)
+            .json({message: `Success! You updated ${updated} item(s)`})
         }
     })
     .catch(error => {
@@ -96,6 +96,29 @@ router.put('/:id', capitalLetters, (req, res) => {
         res
         .status(500)
         .json({message: "The User information could not be modified."})
+    })
+})
+
+// endpoint for deleting...
+router.delete('/:id', (req, res) => {
+    const id = req.params.id
+
+    users
+    .remove(id)
+    .then(deleted => {
+        if(!deleted) {
+            res
+            .status(404)
+            .json({message: `The User with the specified ID of ${id} does not exist.`})
+        } else {
+            res.json({message: 'User Has Been Deleted.'}).end()
+        }
+    })
+    .catch(error => {
+        console.log(error)
+        res
+        .status(500)
+        .json({error: "User could not be removed"})
     })
 })
 
