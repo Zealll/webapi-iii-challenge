@@ -73,6 +73,32 @@ router.post('/', capitalLetters, (req, res) => {
     })
 })
 
+// endpoint for updating an User
+router.put('/:id', capitalLetters, (req, res) => {
+    const id = req.params.id
+    const update = req.body
+
+    users
+    .update(id, update)
+    .then(updated => {
+        if(updated.length < 0){
+            res
+            .status(404)
+            .json({message: `The User with the specified ID of ${id} does not exist.`})
+        } else {
+            res
+            .status(200)
+            .json(updated)
+        }
+    })
+    .catch(error => {
+        console.log(error)
+        res
+        .status(500)
+        .json({message: "The User information could not be modified."})
+    })
+})
+
 
 
 
