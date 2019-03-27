@@ -6,6 +6,12 @@ const router = express.Router()
 const users = require('./userDb.js')
 
 
+// Custom MiddleWare
+const {
+    capitalLetters
+} = require('../../middleware/middleware.js')
+
+
 
 // Endpoints Start Here:
 
@@ -13,8 +19,8 @@ const users = require('./userDb.js')
 router.get('/', (req, res) => {
     users
     .get()
-    .then(users => {
-        res.json(users)
+    .then(resources => {
+        res.json(resources)
     })
     .catch(() => {
         res
@@ -29,20 +35,41 @@ router.get('/:id', (req, res) => {
 
     users
     .getById(id)
-    .then(user => {
+    .then(resource => {
         // if the ID doesn't exist, it will return a specific error that is different from a server error.
-        if(user.length < 0) {
+        if(resource.length < 0) {
             res
             .status(404)
             .json({message: `The post with the specified ID of ${id} does not exist.`})
         } else {
-            res.json(user)
+            res.json(resource)
         }
     })
     .catch(error => {
+        console.log(error)
         res
         .status(500)
         .json({message: "The User information could not be retrieved."})
+    })
+})
+
+// endpoint for adding a new user...
+// "capitalLetters" checks whether the entered name is capital or not
+router.post('/', capitalLetters, (req, res) => {
+    const user = req.body
+
+    users
+    .insert(user)
+    .then(resource => {
+        res
+        .status(201)
+        .json(resource)
+    })
+    .catch(error =>{
+        console.log(error)
+        res
+        .status(500)
+        .json({message: "There was an error while saving new User to the database"})
     })
 })
 
