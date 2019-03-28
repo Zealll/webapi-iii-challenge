@@ -62,6 +62,32 @@ router.post('/', (req, res) => {
     })
 })
 
+//endpoint for updating a desired post
+router.put('/:id', (req, res) => {
+    const id = req.params.id
+    const update = req.body
+
+    posts
+    .update(id, update)
+    .then(updated => {
+        if(!updated) {
+            res
+            .status(404)
+            .json({message: `The Post with the specified ID of ${id} does not exist.`})
+        } else {
+            res
+            .status(200)
+            .json({message: `Success! You updated ${updated} item(s)`})
+        }
+    })
+    .catch(error => {
+        console.log(error)
+        res
+        .status(500)
+        .json({message: "The Post could not be modified."})
+    })
+})
+
 
 
 module.exports = router;
