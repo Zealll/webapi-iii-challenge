@@ -13,7 +13,7 @@ const {
 
 
 
-// Endpoints Start Here:
+// Endpoints For Users Start Here:
 
 // getting all the user data...
 router.get('/', (req, res) => {

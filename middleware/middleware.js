@@ -17,18 +17,9 @@ function capitalLetters(req, res, next) {
     next()
 }
 
-function count(req, res, next){
-    if (count === 1) {
-        next()
-    } else {
-        res.status(404).json({message: "OOOOOPSIE!!!"})
-    }
-}
-
 
 
 
 module.exports = {
-    capitalLetters,
-    count
+    capitalLetters
 }
