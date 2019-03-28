@@ -62,7 +62,7 @@ router.post('/', (req, res) => {
     })
 })
 
-//endpoint for updating a desired post
+// endpoint for updating a desired post..
 router.put('/:id', (req, res) => {
     const id = req.params.id
     const update = req.body
@@ -85,6 +85,29 @@ router.put('/:id', (req, res) => {
         res
         .status(500)
         .json({message: "The Post could not be modified."})
+    })
+})
+
+// endpoint for Deleting a desired post...
+router.delete('/:id', (req, res) => {
+    const id = req.params.id
+
+    posts
+    .remove(id)
+    .then(deleted => {
+        if(!deleted) {
+            res
+            .status(404)
+            .json({message: `The User with the specified ID of ${id} does not exist.`})
+        } else {
+            res.json({message: 'Your Post Has Been Deleted.'}).end()
+        }
+    })
+    .catch(error => {
+        console.log(error)
+        res
+        .status(500)
+        .json({message: "Post could not be removed"})
     })
 })
 
