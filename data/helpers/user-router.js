@@ -53,6 +53,29 @@ router.get('/:id', (req, res) => {
     })
 })
 
+// getting Posts that correspond with the selected User's ID...
+router.get('/:id/posts', (req, res) => {
+    const id = req.params.id
+
+    users
+    .getUserPosts(id)
+    .then(userPosts => {
+        if(userPosts.length === 0) {
+            res
+            .status(404)
+            .json({message: `The post with the specified ID of ${id} does not exist.`})
+        } else {
+            res.json(userPosts)
+        }
+    })
+    .catch(error => {
+        console.log(error)
+        res
+        .status(500)
+        .json({message: "Posts regarding this User could not be retrieved."})
+    })
+})
+
 // endpoint for adding a new user...
 // "capitalLetters" checks whether the entered name is capital or not
 router.post('/', capitalLetters, (req, res) => {
