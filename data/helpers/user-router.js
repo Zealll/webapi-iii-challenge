@@ -7,9 +7,7 @@ const users = require('./userDb.js')
 
 
 // Custom MiddleWare
-const {
-    capitalLetters
-} = require('../../middleware/middleware.js')
+const { capitalLetters } = require('../../middleware/middleware.js')
 
 
 
